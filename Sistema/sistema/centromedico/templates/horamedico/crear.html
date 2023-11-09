@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block titulo %} Agregar horario {% endblock %}
+
+
+{% block contenido %}
+
+<div class="card">
+    <div class="card-header">
+        Crear horario
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">Horario</h4>
+
+        {% include 'horamedico/form.html'%}
+
+    </div>
+    <div class="card-footer text-muted">
+        
+    </div>
+</div>
+{% endblock %}

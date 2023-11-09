@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block titulo %} Lista pacientes {% endblock %}
+
+
+{% block contenido %}
+
+<div class="card">
+    <div class="card-header">
+        Listado de horarios médicos
+        <a name="" id="" class="btn btn-success" href="{% url 'crearHora' %}" role="button">Registrar hora</a>
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">Pacientes</h4>
+        <div class="table-responsive">
+            <table class="table table-primary">
+                <thead>
+                    <tr>
+                        <th scope="col">Rut</th>
+                        <th scope="col">Dv</th>
+                        <th scope="col">Inicio consulta</th>
+                        <th scope="col">Termino consulta</th>
+                        <th scope="col">Nombre médico</th>
+                        <th scope="col">Apellido médico</th>
+                        <th scope="col">Especialidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for hora in horarios %}
+
+                    <tr class="">
+                        <td>{{hora.rut_medico }}</td>
+                        <td>{{hora.rut_dv_medico }}</td>
+                        <td>{{hora.nombre_medico }}</td>
+                        <td>{{hora.apellido_medico }}</td>
+                        <td>{{hora.especialidad }}</td>
+                        <td>{{hora.fec_hr_ini }}</td>
+                        <td>{{hora.fec_hr_ter }}</td>
+                        <td><a name="" id="" class="btn btn-info" href="{% url 'editarHora' %}" role="button">Editar</a>|
+                            <a class="btn btn-danger" href="{% url 'eliminarHora' HorasAtencionMedico.rut %}" role="button">Borrar</a>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    <div class="card-footer text-muted">
+        Footer
+    </div>
+</div>
+{% endblock %}

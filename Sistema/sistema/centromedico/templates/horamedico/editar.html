@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block titulo %} Editar horario {% endblock %}
+
+
+{% block contenido %}
+
+<div class="card">
+    <div class="card-header">
+        Editar información de horarios
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">Horarios</h4>
+
+        {% include 'horamedico/form.html'%}
+
+    </div>
+    <div class="card-footer text-muted">
+        
+    </div>
+</div>
+
+{% endblock %}
