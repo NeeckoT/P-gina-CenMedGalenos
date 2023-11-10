@@ -12,5 +12,6 @@ urlpatterns = [
     path('horamedico/crear', views.registrarHora, name='crearHora'),
     path('horamedico/editar', views.editarHora, name='editarHora'),
     path('horamedico/eliminar/<int:rut>/', views.eliminarHora, name='eliminarHora'),
+    path('ListaPacientesAtencion/Lista', views.ListaPacientes, name='Lista'),
 
 ]

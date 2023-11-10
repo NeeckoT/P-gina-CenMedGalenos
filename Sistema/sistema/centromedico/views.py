@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Usuario
-from .forms import UsuarioForm
-from .models import HorasAtencionMedico
-from .forms import HorasAtencionMedicoForm
+from .models import *
+from .forms import *
+
+
+
 
 def inicio(request):
     return render(request, 'paginas/inicio.html')    
@@ -12,7 +13,7 @@ def nosotros(request):
     return render(request, 'paginas/nosotros.html')    
 #creacion de usuarios empleados/pacientes
 def pacientes(request):
-    usuarios = Usuario.objects.all()
+    usuarios = Paciente.objects.all()
     return render(request, 'pacientes/index.html',{'usuarios':usuarios})    
 
 def registrarUsuario(request):
@@ -26,12 +27,12 @@ def editarUsuario(request):
     return render(request, 'pacientes/editar.html')     
 
 def eliminarUsuario(request,rut):
-    usuarios = Usuario.objects.get(rut=rut)
+    usuarios = Paciente.objects.get(rut=rut)
     usuarios.delete()
     return redirect('pacientes')
 #creacion de horarios medicos
 def horamedico(request):
-    horas = HorasAtencionMedico.objects.all()
+    horas = Hora.objects.all()
     return render(request, 'horamedico/index.html',{'horas':horas})    
 
 def registrarHora(request):
@@ -45,6 +46,10 @@ def editarHora(request):
     return render(request, 'horamedico/editar.html')     
 
 def eliminarHora(request,rut):
-    horasmedico = HorasAtencionMedico.objects.get(rut=rut)
+    horasmedico = Hora.objects.get(rut=rut)
     horasmedico.delete()
     return redirect('horamedico')
+
+def ListaPacientes(request):
+    Atenciones = Atencion.objects.all()
+    return render(request, 'ListaPacientesAtencion/Lista.html',{'Atenciones':Atenciones})

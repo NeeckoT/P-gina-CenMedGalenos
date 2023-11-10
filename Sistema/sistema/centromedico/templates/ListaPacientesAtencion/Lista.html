@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block titulo %} Lista pacientes {% endblock %}
+
+
+{% block contenido %}
+
+<div class="card">
+     
+    <table>
+        {% for campo in ListaPaciente %} 
+        <thead>
+            <tr>
+                <th scope="col">Rut</th>
+                <th scope="col">DVRut</th>
+                <th scope="col">Nombre_1</th>
+                <th scope="col">Nombre_2</th>
+                <th scope="col">Apellido_1</th>
+                <th scope="col">Apellido_2</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Fono</th>
+                <th scope="col">Salud</th>
+                <th scope="col">Contraseña</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        {% endfor %}
+    </table>
+
+
+</div>
+
+
+{% endblock %}
