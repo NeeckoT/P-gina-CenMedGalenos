@@ -34,18 +34,18 @@
                     {% for usuario in usuarios %}
 
                     <tr class="">
-                        <td>{{usuario.rut}}</td>
-                        <td>{{usuario.rut_dv}}</td>
-                        <td>{{usuario.nombre_1}}</td>
-                        <td>{{usuario.nombre_2}}</td>
-                        <td>{{usuario.apellido_1}}</td>
-                        <td>{{usuario.apellido_2}}</td>
-                        <td>{{usuario.correo}}</td>
-                        <td>{{usuario.fono}}</td>
-                        <td>{{usuario.salud}}</td>
-                        <td>{{usuario.contrasena}}</td>
-                        <td><a name="" id="" class="btn btn-info" href="{% url 'editar' %}" role="button">Editar</a>|
-                            <a class="btn btn-danger" href="{% url 'eliminar' usuario.rut %}" role="button">Borrar</a>
+                        <td>{{usuario.pac_run}}</td>
+                        <td>{{usuario.dv_run}}</td>
+                        <td>{{usuario.pnombre}}</td>
+                        <td>{{usuario.snombre}}</td>
+                        <td>{{usuario.apaterno}}</td>
+                        <td>{{usuario.amaterno}}</td>
+                        <td>{{usuario.fecha_nacimiento}}</td>
+                        <td>{{usuario.telefono}}</td>
+                        <td>{{usuario.salud_sal_id}}</td>
+                        <td>{{usuario.correo_paciente}}</td>
+                        <td>{{usuario.genero_paciente}}</td>
+
 
                         </td>
                     </tr>

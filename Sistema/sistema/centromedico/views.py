@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from .forms import *
-
+from .models import Medico, Hora, Especialidad
+from .forms import CustomForm
 
 
 
@@ -67,14 +68,15 @@ def crear_datos_completos(request):
         custom_form = CustomForm(request.POST)
         if custom_form.is_valid():
             # Procesa y guarda los datos de los tres modelos aquí
-            medico_instance = custom_form.cleaned_data['medico'].save()
-            hora_instance = custom_form.cleaned_data['hora'].save()
-            especialidad_instance = custom_form.cleaned_data['especialidad'].save()
-
+            #medico_instance = custom_form.cleaned_data['medico'].save()
+            #hora_instance = custom_form.cleaned_data['hora'].save()
+            #especialidad_instance = custom_form.cleaned_data['especialidad'].save()
+            custom_form.save()
             # Puedes realizar acciones adicionales aquí, como relacionar los modelos, etc.
 
-            return redirect('pagina_de_exito')  # Redirige a una página de éxito o donde desees
+            return redirect('inicio')  # Redirige a una página de éxito o donde desees
     else:
         custom_form = CustomForm()
 
     return render(request, 'ListaPacientesAtencion/Lista.html', {'custom_form': custom_form})
+

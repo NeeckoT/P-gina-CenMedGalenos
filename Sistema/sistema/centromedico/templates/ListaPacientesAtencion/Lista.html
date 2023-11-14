@@ -14,9 +14,7 @@
             
             <!-- Formulario de Medico -->
             <h2>Médico</h2>
-            <p>Rut:</p>{{ custom_form.medico.med_run }}
-            <p>Digito verificador: </p>{{ custom_form.medico.dv_run }}
-            
+            {{ custom_form.medico.as_p }}
             <!-- Formulario de Hora -->
             <h2>Hora</h2>
             {{ custom_form.hora.as_p }}

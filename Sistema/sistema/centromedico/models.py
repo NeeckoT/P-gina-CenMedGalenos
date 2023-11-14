@@ -1,6 +1,8 @@
 from django.db import models
 
 class Afp(models.Model):
+    class Meta:
+        db_table = 'Afp'
     id_afp = models.IntegerField(primary_key=True)
     afp = models.CharField(max_length=50)
     descuento_afp = models.IntegerField()
@@ -93,6 +95,8 @@ class Medico(models.Model):
     descuento_sueldo_id_descuento1 = models.IntegerField(null=True)
 
 class Paciente(models.Model):
+    class Meta:
+        db_table = 'Paciente'
     pac_run = models.IntegerField(primary_key=True)
     dv_run = models.CharField(max_length=1)
     pnombre = models.CharField(max_length=15)
