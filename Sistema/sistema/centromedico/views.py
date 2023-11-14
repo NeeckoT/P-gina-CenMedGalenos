@@ -53,3 +53,28 @@ def eliminarHora(request,rut):
 def ListaPacientes(request):
     Atenciones = Atencion.objects.all()
     return render(request, 'ListaPacientesAtencion/Lista.html',{'Atenciones':Atenciones})
+
+
+
+
+
+
+
+# Función para el form completo de médico
+
+def crear_datos_completos(request):
+    if request.method == 'POST':
+        custom_form = CustomForm(request.POST)
+        if custom_form.is_valid():
+            # Procesa y guarda los datos de los tres modelos aquí
+            medico_instance = custom_form.cleaned_data['medico'].save()
+            hora_instance = custom_form.cleaned_data['hora'].save()
+            especialidad_instance = custom_form.cleaned_data['especialidad'].save()
+
+            # Puedes realizar acciones adicionales aquí, como relacionar los modelos, etc.
+
+            return redirect('pagina_de_exito')  # Redirige a una página de éxito o donde desees
+    else:
+        custom_form = CustomForm()
+
+    return render(request, 'ListaPacientesAtencion/Lista.html', {'custom_form': custom_form})

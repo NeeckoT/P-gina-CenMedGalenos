@@ -7,25 +7,28 @@
 
 <div class="card">
      
-    <table>
-        {% for campo in ListaPaciente %} 
-        <thead>
-            <tr>
-                <th scope="col">Rut</th>
-                <th scope="col">DVRut</th>
-                <th scope="col">Nombre_1</th>
-                <th scope="col">Nombre_2</th>
-                <th scope="col">Apellido_1</th>
-                <th scope="col">Apellido_2</th>
-                <th scope="col">Correo</th>
-                <th scope="col">Fono</th>
-                <th scope="col">Salud</th>
-                <th scope="col">Contraseña</th>
-                <th scope="col">Acciones</th>
-            </tr>
-        </thead>
-        {% endfor %}
-    </table>
+    <h1>hola</h1>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- Formulario de Medico -->
+            <h2>Médico</h2>
+            <p>Rut:</p>{{ custom_form.medico.med_run }}
+            <p>Digito verificador: </p>{{ custom_form.medico.dv_run }}
+            
+            <!-- Formulario de Hora -->
+            <h2>Hora</h2>
+            {{ custom_form.hora.as_p }}
+            
+            <!-- Formulario de Especialidad -->
+            <h2>Especialidad</h2>
+            {{ custom_form.especialidad.as_p }}
+    
+            <input type="submit" value="Guardar">
+        </form>
+    </div>
+    
 
 
 </div>
