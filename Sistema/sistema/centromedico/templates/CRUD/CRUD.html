@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block titulo %} Lista pacientes {% endblock %}
+
+
+{% block contenido %}
+
+    {% load crispy_forms_tags %}
+    <form action="{% url 'CRUD' %}" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            {{ field.non_field_errors  }}
+            {{ field | as_crispy_field  }}
+
+        {% endfor %}
+
+
+        <button name="save" class="btn btn-primary"> Guardar </button>
+        {% if form_error %}
+        <div class="alert alert-danger">
+            {{ form_error }}
+        </div>
+        {% endif %}
+    </form>
+    <table>
+        
+        <tr> <th>Nombre</th> <th>Apellidos</th> <th></th> <th>Rut</th> <th>Digito Verificador</th></tr>
+
+        {% for medico in medicos %}
+            <tr>
+                <td>{{ medico.pnombre }}   </td>
+                <td>{{ medico.apaterno }}   </td>
+                <td>{{ medico.amaterno }}   </td>
+                <td>{{ medico.med_run }}   </td>
+                <td>{{ medico.dv_run }}    </td>
+
+            </tr>
+
+        {% endfor %}
+            
+    </table>
+        
+    
+
+{% endblock %}

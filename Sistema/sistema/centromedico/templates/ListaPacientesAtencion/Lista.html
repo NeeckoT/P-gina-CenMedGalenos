@@ -9,22 +9,32 @@
      
     <h1>hola</h1>
     <div>
-        <form method="post">
+        <form method="post" action="{% url 'Datos_completos' %}">
             {% csrf_token %}
             
-            <!-- Formulario de Medico -->
-            <h2>Médico</h2>
-            {{ custom_form.medico.as_p }}
-            <!-- Formulario de Hora -->
-            <h2>Hora</h2>
-            {{ custom_form.hora.as_p }}
+            {{ form.non_field_errors }}
             
-            <!-- Formulario de Especialidad -->
-            <h2>Especialidad</h2>
-            {{ custom_form.especialidad.as_p }}
-    
-            <input type="submit" value="Guardar">
-        </form>
+            <div class="fieldWrapper">
+              {{ form.med_run.errors }}
+              <label for="{{ form.med_run.id_for_label }}">Med Run:</label>
+              {{ form.med_run }}
+            </div>
+            
+            <div class="fieldWrapper">
+              {{ form.dv_run.errors }}
+              <label for="{{ form.dv_run.id_for_label }}">DV Run:</label>
+              {{ form.dv_run }}
+            </div>
+            
+            <div class="fieldWrapper">
+              {{ form.esp_id.errors }}
+              <label for="{{ form.esp_id.id_for_label }}">Especialidad ID:</label>
+              {{ form.esp_id }}
+            </div>
+            
+            <input type="submit" value="Generar Horas">
+          </form>
+          
     </div>
     
 

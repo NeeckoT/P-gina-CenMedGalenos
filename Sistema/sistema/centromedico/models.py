@@ -78,6 +78,8 @@ class Hora(models.Model):
     especialidad_esp_id = models.IntegerField()
 
 class Medico(models.Model):
+    class Meta:
+        db_table = 'Medico'
     med_run = models.IntegerField(primary_key=True)
     dv_run = models.CharField(max_length=1)
     pnombre = models.CharField(max_length=15)
@@ -92,7 +94,6 @@ class Medico(models.Model):
     contraseña_medico = models.CharField(max_length=50)
     afp_id_afp = models.IntegerField()
     prevision_salud_id_prevision = models.IntegerField()
-    descuento_sueldo_id_descuento1 = models.IntegerField(null=True)
 
 class Paciente(models.Model):
     class Meta:

@@ -2,8 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from .forms import *
-from .models import Medico, Hora, Especialidad
-from .forms import CustomForm
 
 
 
@@ -12,6 +10,8 @@ def inicio(request):
 
 def nosotros(request):
     return render(request, 'paginas/nosotros.html')    
+
+
 #creacion de usuarios empleados/pacientes
 def pacientes(request):
     usuarios = Paciente.objects.all()
@@ -31,6 +31,8 @@ def eliminarUsuario(request,rut):
     usuarios = Paciente.objects.get(rut=rut)
     usuarios.delete()
     return redirect('pacientes')
+
+
 #creacion de horarios medicos
 def horamedico(request):
     horas = Hora.objects.all()
@@ -61,22 +63,44 @@ def ListaPacientes(request):
 
 
 
-# Función para el form completo de médico
-
-def crear_datos_completos(request):
+def generar_horas(request):
     if request.method == 'POST':
-        custom_form = CustomForm(request.POST)
-        if custom_form.is_valid():
-            # Procesa y guarda los datos de los tres modelos aquí
-            #medico_instance = custom_form.cleaned_data['medico'].save()
-            #hora_instance = custom_form.cleaned_data['hora'].save()
-            #especialidad_instance = custom_form.cleaned_data['especialidad'].save()
-            custom_form.save()
-            # Puedes realizar acciones adicionales aquí, como relacionar los modelos, etc.
+        form = GenerarHorasForm(request.POST)
+        if form.is_valid():
+            med_run = form.cleaned_data['med_run']
+            dv_run = form.cleaned_data['dv_run']
+            esp_id = form.cleaned_data['esp_id']
+
+            # Aquí puedes generar las horas para el médico utilizando los datos proporcionados
+            # Puedes crear instancias de Hora y guardarlas en la base de datos
 
             return redirect('inicio')  # Redirige a una página de éxito o donde desees
     else:
-        custom_form = CustomForm()
+        form = GenerarHorasForm()
 
-    return render(request, 'ListaPacientesAtencion/Lista.html', {'custom_form': custom_form})
+    return render(request, 'ListaPacientesAtencion/Lista.html', {'form': form})
+
+
+
+
+def crud(request):
+    context = {}
+    form = MedicoForm()
+    medicos = Medico.objects.all()
+    context['medicos'] = medicos
+
+    if request.method == 'POST':
+        if 'save' in request.POST:
+            form = MedicoForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('CRUD')
+            else:
+                form = MedicoForm()
+                context['form_error'] = "Error: El formulario no es válido. Por favor, corrige los errores a continuación."
+
+    context['form'] = form
+    return render(request, 'CRUD/CRUD.html', context)
+
+
 
