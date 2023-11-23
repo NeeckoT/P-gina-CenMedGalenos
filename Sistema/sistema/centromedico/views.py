@@ -1,5 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required, permission_required
+
 from .models import *
 from .forms import *
 
@@ -101,6 +104,70 @@ def crud(request):
 
     context['form'] = form
     return render(request, 'CRUD/CRUD.html', context)
+
+
+def secretaria_horas(request):
+
+    horas = Hora.objects.all()
+
+    data = {
+        'horas': horas,
+        'formhora': HoraForm()
+    }
+
+    if request.method == 'POST':
+        formulario = HoraForm(data = request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            data["mensaje"] = "¡Guardado correctamente!"
+        else:
+            data["formhora"] = formulario
+
+    return render(request, 'secretaria/horas.html', data)
+
+
+
+def secretaria_modificar_horas(request, id):
+
+    hora = get_object_or_404(Hora, id_hora = id)
+
+    data = {
+        'formhora': HoraForm( instance = hora)
+    }
+
+    if request.method == 'POST':
+        formulario = HoraForm(data = request.POST, instance = hora)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect(to = "s_horas")
+        data["formhora"] = formulario
+
+    return render(request, 'secretaria/modhoras.html', data)
+
+
+def secretaria_eliminar_horas (request, id):
+    hora = get_object_or_404(Hora, id_hora = id)
+    hora.delete()
+    return redirect(to = "s_horas")
+
+
+
+def registro(request):
+
+    data = {
+        'form': CustomUserCreationForm()
+    }
+
+    if request.method == 'POST':
+        formulario = CustomUserCreationForm(data = request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            user = authenticate(username = formulario.cleaned_data["username"],
+            password =formulario.cleaned_data["password1"])
+            login(request, user)
+            return redirect(to = "/")
+
+    return render(request, 'registration/registro.html', data)
 
 
 

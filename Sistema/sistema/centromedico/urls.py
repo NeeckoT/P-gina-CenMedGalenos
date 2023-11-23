@@ -15,5 +15,9 @@ urlpatterns = [
     path('ListaPacientesAtencion/Lista', views.ListaPacientes, name='Lista'),
     path('crear_datos_completos/', views.generar_horas, name='Datos_completos'),
     path('CRUD/', views.crud, name='CRUD'),
+    path('secretaria/horas/', views.secretaria_horas, name='s_horas'),
+    path('secretaria/modhoras/<id>/', views.secretaria_modificar_horas, name='s_m_horas'),
+    path('secretaria/elihoras/<id>/', views.secretaria_eliminar_horas, name='s_e_horas'),
+    path('registro/', views.registro, name='registro'),
 
 ]

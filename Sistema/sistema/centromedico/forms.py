@@ -3,6 +3,8 @@ from tempus_dominus.widgets import DatePicker
 from .models import Hora, Medico, Especialidad
 from .models import Paciente
 from .models import Atencion
+
+from django.contrib.auth.forms import UserCreationForm
 #from .models import Usuario
 #from .models import HorasAtencionMedico
 
@@ -51,3 +53,9 @@ class GenerarHorasForm(forms.Form):
             raise forms.ValidationError("No se encontró un médico con este med_run.")
         return med_run
 
+
+
+
+
+class CustomUserCreationForm(UserCreationForm):
+    pass

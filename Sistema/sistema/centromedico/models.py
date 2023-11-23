@@ -2,12 +2,14 @@ from django.db import models
 
 class Afp(models.Model):
     class Meta:
-        db_table = 'Afp'
+        db_table = 'afp'
     id_afp = models.IntegerField(primary_key=True)
     afp = models.CharField(max_length=50)
     descuento_afp = models.IntegerField()
 
 class Atencion(models.Model):
+    class Meta:
+        db_table = 'atencion'
     ate_id = models.IntegerField(primary_key=True)
     fecha_atencion = models.DateField()
     hr_atencion = models.CharField(max_length=5)
@@ -18,20 +20,28 @@ class Atencion(models.Model):
     centro_medico_id_centro_medico = models.IntegerField(null=True)
 
 class Cargo(models.Model):
+    class Meta:
+        db_table = 'cargo'
     car_id = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=30)
 
 class CentroMedico(models.Model):
+    class Meta:
+        db_table = 'centro_medico'
     id_centro_medico = models.IntegerField(primary_key=True)
     centro_medico = models.CharField(max_length=50)
     fono_centro = models.IntegerField()
     direccion_id_direccion = models.IntegerField(null=True)
 
 class Comuna(models.Model):
+    class Meta:
+        db_table = 'comuna'
     id_comuna = models.IntegerField(primary_key=True)
     comuna = models.CharField(max_length=50)
 
 class DetalleAtenMedicasMensuales(models.Model):
+    class Meta:
+        db_table = 'detalle_atenmedicas_mensuales'
     mes_anno_atencion = models.CharField(max_length=7)
     atencion_ate_id = models.IntegerField(primary_key=True)
     paciente = models.CharField(max_length=100)
@@ -40,11 +50,15 @@ class DetalleAtenMedicasMensuales(models.Model):
     costo_atencion = models.IntegerField()
 
 class Direccion(models.Model):
+    class Meta:
+        db_table = 'direccion'
     id_direccion = models.IntegerField(primary_key=True)
     direccion = models.CharField(max_length=100)
     comuna_id_comuna = models.IntegerField()
 
 class Empleado(models.Model):
+    class Meta:
+        db_table = 'empleado'
     id_empleado = models.IntegerField(primary_key=True)
     rut_empleado = models.IntegerField()
     dv_empleado = models.CharField(max_length=1)
@@ -61,25 +75,32 @@ class Empleado(models.Model):
     afp_id_afp = models.IntegerField()
 
 class ErroresProceso(models.Model):
+    class Meta:
+        db_table = 'errores_proceso'
     id_error = models.IntegerField(primary_key=True)
     subprograma_error = models.CharField(max_length=150)
     descripcion_error = models.CharField(max_length=500)
 
 
 class Especialidad(models.Model):
+    class Meta:
+        db_table = 'especialidad'
     esp_id = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=25)
 
 class Hora(models.Model):
+    class Meta:
+        db_table = 'hora'
     id_hora = models.IntegerField(primary_key=True)
-    fecha_y_hora = models.DateField()
+    fecha_y_hora = models.DateTimeField()
+    medico_med_run = models.IntegerField(null=False)
     paciente_pac_run = models.IntegerField(null=True)
     atencion_ate_id = models.IntegerField()
     especialidad_esp_id = models.IntegerField()
 
 class Medico(models.Model):
     class Meta:
-        db_table = 'Medico'
+        db_table = 'medico'
     med_run = models.IntegerField(primary_key=True)
     dv_run = models.CharField(max_length=1)
     pnombre = models.CharField(max_length=15)
@@ -97,7 +118,7 @@ class Medico(models.Model):
 
 class Paciente(models.Model):
     class Meta:
-        db_table = 'Paciente'
+        db_table = 'paciente'
     pac_run = models.IntegerField(primary_key=True)
     dv_run = models.CharField(max_length=1)
     pnombre = models.CharField(max_length=15)
@@ -113,24 +134,34 @@ class Paciente(models.Model):
     direccion_id_direccion = models.IntegerField()
 
 class PagoAtencion(models.Model):
+    class Meta:
+        db_table = 'pago_atencion'
     atencion_ate_id = models.IntegerField(primary_key=True)
     fecha_pago = models.DateField()
     valor_a_pagar = models.IntegerField()
 
 class PrevisionSalud(models.Model):
+    class Meta:
+        db_table = 'prevision_salud'
     id_prevision = models.IntegerField(primary_key=True)
     prevision = models.CharField(max_length=50)
     descuento_prevision = models.IntegerField()
 
 class Relation14(models.Model):
+    class Meta:
+        db_table = 'relation_14'
     hora_id_hora = models.IntegerField(primary_key=True)
     empleado_id_empleado = models.IntegerField()
 
 class Relation15(models.Model):
+    class Meta:
+        db_table = 'relation_15'
     empleado_id_empleado = models.IntegerField(primary_key=True)
     pago_atencion_atencion_ate_id = models.IntegerField()
 
 class ResumenAtenMedicasMensuales(models.Model):
+    class Meta:
+        db_table = 'resumen_atenmedicas_mensuales'
     mes_anno_atencion = models.CharField(max_length=8, primary_key=True)
     total_aten_unid_ambul = models.IntegerField()
     total_aten_unid_urgen = models.IntegerField()
@@ -144,15 +175,21 @@ class ResumenAtenMedicasMensuales(models.Model):
     fecha_grabacion = models.DateField()
 
 class Rol(models.Model):
+    class Meta:
+        db_table = 'rol'
     id_rol = models.IntegerField(primary_key=True)
     descripcion = models.CharField(max_length=1000)
 
 class Salud(models.Model):
+    class Meta:
+        db_table = 'salud'
     sal_id = models.IntegerField(primary_key=True)
     descripcion = models.CharField(max_length=100)
     costo_pago = models.IntegerField()
     tipo_salud_tipo_sal_id = models.CharField(max_length=3)
 
 class TipoSalud(models.Model):
+    class Meta:
+        db_table = 'tipo_salud'
     tipo_sal_id = models.CharField(max_length=3, primary_key=True)
     descripcion = models.CharField(max_length=100)
