@@ -22,15 +22,23 @@
   <main>
     <nav class="navbar navbar-expand navbar-light bg-light">
         <div class="nav navbar-nav">
+
             <a class="nav-item nav-link" href="{% url 'inicio' %}">Inicio</a>
-            <a class="nav-item nav-link" href="#">Acceder</a>
-            <a class="nav-item nav-link" href="#">Agendar Hora</a>
+
+            <a class="nav-item nav-link" href="{% url 'agendar' %}">Agendar Hora</a>
+
             <a class="nav-item nav-link" href="{% url 'nosotros' %}">Nosotros</a>
+
             {% if user.is_authenticated %}
             <a class="nav-item nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
+
+            <a href="#" class="nav-item nav-link">{{ user.username }}</a>
+
             {% else %}
             <a class="nav-item nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
             {% endif %}
+
+
         </div>
     </nav>
 

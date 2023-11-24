@@ -19,5 +19,8 @@ urlpatterns = [
     path('secretaria/modhoras/<id>/', views.secretaria_modificar_horas, name='s_m_horas'),
     path('secretaria/elihoras/<id>/', views.secretaria_eliminar_horas, name='s_e_horas'),
     path('registro/', views.registro, name='registro'),
+    path('agendar_hora/', views.paciente_agendar_hora, name='agendar'),
+    path('confirmar_hora/<id>/', views.paciente_confirmar_horas, name='confirmar'),
+    
 
 ]

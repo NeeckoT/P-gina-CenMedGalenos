@@ -87,16 +87,9 @@ class Especialidad(models.Model):
         db_table = 'especialidad'
     esp_id = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=25)
-
-class Hora(models.Model):
-    class Meta:
-        db_table = 'hora'
-    id_hora = models.IntegerField(primary_key=True)
-    fecha_y_hora = models.DateTimeField()
-    medico_med_run = models.IntegerField(null=False)
-    paciente_pac_run = models.IntegerField(null=True)
-    atencion_ate_id = models.IntegerField()
-    especialidad_esp_id = models.IntegerField()
+    def __str__(self):
+        return self.nombre
+    
 
 class Medico(models.Model):
     class Meta:
@@ -115,6 +108,8 @@ class Medico(models.Model):
     contraseña_medico = models.CharField(max_length=50)
     afp_id_afp = models.IntegerField()
     prevision_salud_id_prevision = models.IntegerField()
+    def __str__(self):
+        return str(self.med_run)
 
 class Paciente(models.Model):
     class Meta:
@@ -132,6 +127,23 @@ class Paciente(models.Model):
     contraseña_paciente = models.CharField(max_length=50)
     genero_paciente = models.CharField(max_length=5)
     direccion_id_direccion = models.IntegerField()
+    def __str__(self):
+        return str(self.pac_run)
+
+
+class Hora(models.Model):
+    class Meta:
+        db_table = 'hora'
+        
+    id_hora = models.IntegerField(primary_key=True)
+    fecha_y_hora = models.DateTimeField()
+    medico_med_run = models.ForeignKey(Medico, on_delete=models.CASCADE)
+    paciente_pac_run = models.ForeignKey(Paciente, on_delete=models.CASCADE, null=True)
+    atencion_ate_id = models.IntegerField()
+    especialidad_esp = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
+
+
+
 
 class PagoAtencion(models.Model):
     class Meta:

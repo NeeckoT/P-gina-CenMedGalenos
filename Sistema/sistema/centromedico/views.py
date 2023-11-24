@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib import messages
 
 from .models import *
 from .forms import *
@@ -152,6 +153,9 @@ def secretaria_eliminar_horas (request, id):
 
 
 
+
+
+
 def registro(request):
 
     data = {
@@ -171,3 +175,47 @@ def registro(request):
 
 
 
+
+
+def paciente_agendar_hora(request):
+
+    horas = Hora.objects.all()
+
+    data = {
+        'horas': horas,
+    }
+
+    return render(request, 'pacientes/agendarhora.html', data)
+
+
+
+
+
+def paciente_confirmar_horas(request, id):
+
+    hora = get_object_or_404(Hora, id_hora = id)
+    pacientes = Paciente.objects.all()
+
+    data = {
+        'hora':hora,
+        'formhora': ConfirmarHoraForm( instance = hora)
+    }
+
+    if request.method == 'POST':
+        for paciente in pacientes:
+            if int(request.user.username) == paciente.pac_run:
+                paciente = Paciente.objects.get(pac_run=request.user.username)
+                hora.paciente_pac_run = paciente
+                print("Exitoso")
+                return redirect(to = "agendar")
+            else:
+                print("Dou")
+        # hora.paciente_pac_run = request.user.username
+        
+        # formulario = ConfirmarHoraForm(data = request.POST, instance = hora, initial={'paciente_pac_run': request.user.username})
+        # if formulario.is_valid():
+        #     formulario.save()
+        #     return redirect(to = "agendar")
+        # data["formhora"] = formulario
+
+    return render(request, 'pacientes/confirmaagendahora.html', data)
