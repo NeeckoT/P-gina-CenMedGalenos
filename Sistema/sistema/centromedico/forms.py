@@ -33,9 +33,12 @@ class HoraForm(forms.ModelForm):
     class Meta:
         model = Hora
         fields = '__all__'
+    def __init__(self, *args, **kwargs):
+        super(HoraForm, self).__init__(*args, **kwargs)
+        self.fields['paciente_pac_run'].required = False
 
 class ConfirmarHoraForm(forms.ModelForm):
-    paciente_pac_run = forms.IntegerField()
+    # paciente_pac_run = forms.IntegerField()
     class Meta:
         model = Hora
         fields = ['paciente_pac_run']

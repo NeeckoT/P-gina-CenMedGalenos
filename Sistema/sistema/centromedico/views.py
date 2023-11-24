@@ -107,6 +107,8 @@ def crud(request):
     return render(request, 'CRUD/CRUD.html', context)
 
 
+
+@permission_required('centromedico.view_hora')
 def secretaria_horas(request):
 
     horas = Hora.objects.all()
@@ -127,7 +129,7 @@ def secretaria_horas(request):
     return render(request, 'secretaria/horas.html', data)
 
 
-
+@permission_required('centromedico.change_hora')
 def secretaria_modificar_horas(request, id):
 
     hora = get_object_or_404(Hora, id_hora = id)
@@ -145,7 +147,7 @@ def secretaria_modificar_horas(request, id):
 
     return render(request, 'secretaria/modhoras.html', data)
 
-
+@permission_required('centromedico.delete_hora')
 def secretaria_eliminar_horas (request, id):
     hora = get_object_or_404(Hora, id_hora = id)
     hora.delete()
@@ -190,11 +192,9 @@ def paciente_agendar_hora(request):
 
 
 
-
 def paciente_confirmar_horas(request, id):
 
     hora = get_object_or_404(Hora, id_hora = id)
-    pacientes = Paciente.objects.all()
 
     data = {
         'hora':hora,
@@ -202,20 +202,13 @@ def paciente_confirmar_horas(request, id):
     }
 
     if request.method == 'POST':
-        for paciente in pacientes:
-            if int(request.user.username) == paciente.pac_run:
-                paciente = Paciente.objects.get(pac_run=request.user.username)
-                hora.paciente_pac_run = paciente
-                print("Exitoso")
-                return redirect(to = "agendar")
-            else:
-                print("Dou")
-        # hora.paciente_pac_run = request.user.username
-        
-        # formulario = ConfirmarHoraForm(data = request.POST, instance = hora, initial={'paciente_pac_run': request.user.username})
-        # if formulario.is_valid():
-        #     formulario.save()
-        #     return redirect(to = "agendar")
-        # data["formhora"] = formulario
+        formulario = ConfirmarHoraForm(data = request.POST, instance = hora)
+        if formulario.is_valid():
+            hora.agendado = True
+            formulario.save()
+            messages.success(request, (f"La hora {hora.fecha_y_hora} se ha agendado correctamente"))
+            return redirect(to = "agendar")
+        messages.error(request, ("Ha ocurrido un error, por favor intenta más tarde."))
+        data["formhora"] = formulario
 
     return render(request, 'pacientes/confirmaagendahora.html', data)

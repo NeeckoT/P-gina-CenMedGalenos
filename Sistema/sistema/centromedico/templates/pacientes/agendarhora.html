@@ -14,6 +14,7 @@
         
             <tr> <th>Fecha y Hora</th> <th> Medico </th> <th> Especialidad </th> <th>Opciones</th></tr>
             {% for hora in horas %}
+                {% if hora.agendado == False %}
                 <tr>
                     <td>{{ hora.fecha_y_hora }}   </td>
 
@@ -28,6 +29,7 @@
                     </td>
     
                 </tr>
+                {% endif %}
             {% endfor %}            
         </table>
 

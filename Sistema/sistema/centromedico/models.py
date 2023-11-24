@@ -135,8 +135,9 @@ class Hora(models.Model):
     class Meta:
         db_table = 'hora'
         
-    id_hora = models.IntegerField(primary_key=True)
+    id_hora = models.AutoField(primary_key=True)
     fecha_y_hora = models.DateTimeField()
+    agendado = models.BooleanField(default=False)
     medico_med_run = models.ForeignKey(Medico, on_delete=models.CASCADE)
     paciente_pac_run = models.ForeignKey(Paciente, on_delete=models.CASCADE, null=True)
     atencion_ate_id = models.IntegerField()

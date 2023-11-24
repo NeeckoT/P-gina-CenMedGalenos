@@ -18,7 +18,6 @@
                         <input type="reset" value="Cancelar" class="btn btn-secondary">&nbsp;
                         <input type="submit" value="Guardar" class="btn btn-primary">
                     </div>
-                    
                 </form>
 
 
@@ -34,12 +33,18 @@
 
         <table class="table table-striped table-hover table-responsive-sm">
         
-            <tr> <th>ID Hora</th> <th>Fecha y Hora</th> <th>Opciones</th></tr>
+            <tr> <th>ID Hora</th> <th>Fecha y Hora</th> <th>Agendada</th> <th>Opciones</th></tr>
     
             {% for hora in horas %}
                 <tr>
-                    <td>{{ hora.id_hora }}   </td>
-                    <td>{{ hora.fecha_y_hora }}   </td>
+                    <td>{{ hora.id_hora }}</td>
+                    <td>{{ hora.fecha_y_hora }}</td>
+
+                    {% if hora.agendado == True %}
+                    <td>SI</td>
+                    {% else %}
+                    <td>NO</td>
+                    {% endif %}
 
 
                     <td>
