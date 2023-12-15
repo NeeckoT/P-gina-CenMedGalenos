@@ -21,6 +21,10 @@ urlpatterns = [
     path('registro/', views.registro, name='registro'),
     path('agendar_hora/', views.paciente_agendar_hora, name='agendar'),
     path('confirmar_hora/<id>/', views.paciente_confirmar_horas, name='confirmar'),
+    path('lista_pacientes/', views.ListaPacientes, name='lista_Pacientes'),
+    path('lista_pacientes_doc/<id>', views.ListaPacientesDoc, name='lista_Pacientes_Doc'),
+    path('lista_recaudacion/', views.ListaMedicosRecaudacion, name='lista_recaudacion'),
+    path('recaudacion/<id>', views.Recaudacion, name='recaudacion'),
     
 
 ]

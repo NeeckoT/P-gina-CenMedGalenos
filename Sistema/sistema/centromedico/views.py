@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
+from datetime import datetime
 
 from .models import *
 from .forms import *
@@ -57,9 +58,9 @@ def eliminarHora(request,rut):
     horasmedico.delete()
     return redirect('horamedico')
 
-def ListaPacientes(request):
-    Atenciones = Atencion.objects.all()
-    return render(request, 'ListaPacientesAtencion/Lista.html',{'Atenciones':Atenciones})
+# def ListaPacientes(request):
+#     Atenciones = Atencion.objects.all()
+#     return render(request, 'ListaPacientesAtencion/Lista.html',{'Atenciones':Atenciones})
 
 
 
@@ -181,9 +182,11 @@ def registro(request):
 
 def paciente_agendar_hora(request):
 
-    horas = Hora.objects.all()
+    especialidades = Especialidad.objects.all()
+    horas = Hora.objects.all().order_by('fecha_y_hora' , 'medico_med_run')
 
     data = {
+        'especialidades':especialidades,
         'horas': horas,
     }
 
@@ -212,3 +215,67 @@ def paciente_confirmar_horas(request, id):
         data["formhora"] = formulario
 
     return render(request, 'pacientes/confirmaagendahora.html', data)
+
+
+
+@permission_required('centromedico.delete_hora')
+def ListaPacientes(request):
+    medicos = Medico.objects.all()
+    horas = Hora.objects.all()
+
+    data = {
+        'medicos':medicos,
+        'horas': horas,
+        'fecha_hora_actual': datetime.now(),
+    }
+    return render(request, 'ListaPacientes/ListaPacientes.html', data)
+
+
+
+
+@permission_required('centromedico.delete_hora')
+def ListaPacientesDoc(request, id):
+    hora = get_list_or_404(Hora, medico_med_run = id)
+
+    hora = sorted(hora, key=lambda x: x.fecha_y_hora)
+
+    data = {
+        'hora':hora,
+        'fecha_hora_actual': datetime.now(),
+    }
+    return render(request, 'ListaPacientes/ListaPacientesDoc.html', data)
+
+
+
+@permission_required('centromedico.delete_hora')
+def ListaMedicosRecaudacion(request):
+    medicos = Medico.objects.all()
+    horas = Hora.objects.all()
+
+    data = {
+        'medicos':medicos,
+        'horas': horas,
+        'fecha_hora_actual': datetime.now(),
+    }
+    return render(request, 'Recaudacion/recaudacion.html', data)
+
+@permission_required('centromedico.delete_hora')
+def Recaudacion(request, id):
+    medico = get_object_or_404(Medico, med_run=id)
+    hora = get_list_or_404(Hora, medico_med_run = id)
+    hora = sorted(hora, key=lambda x: x.fecha_y_hora)
+
+
+    total = 0
+
+    for horita in hora:
+        if horita.agendado:
+            total+= horita.costo
+
+    data = {
+        'total':total,
+        'medico':medico,
+        'hora':hora,
+        'fecha_hora_actual': datetime.now(),
+    }
+    return render(request, 'Recaudacion/recaudacionDoc.html', data)

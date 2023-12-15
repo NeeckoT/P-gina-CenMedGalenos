@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block titulo %} Lista pacientes {% endblock %}
+
+
+{% block contenido %}
+
+<div class="row">
+    <div class="col-12">
+        <h1>{{medico.pnombre}} {{medico.snombre}} {{medico.apaterno}} {{medico.amaterno}} </h1>
+        <table>
+            <tr> <th>Fecha</th> <th>Hora</th>   <th>Paciente</th> <th>Monto</th>   </tr>
+            {% for horita in hora %}
+            <tr>
+                {% if horita.fecha_y_hora.date == fecha_hora_actual.date %}
+                <td>{{ horita.fecha_y_hora.date }}    &emsp;&emsp;</td>
+                <td>{{ horita.fecha_y_hora.time }}    &emsp;&emsp;</td>
+                <td>{{ horita.paciente_pac_run.pnombre }} {{ horita.paciente_pac_run.apaterno }} {{ horita.paciente_pac_run.amaterno }} &emsp;&emsp;</td>
+                <td> ${{ horita.costo|floatformat:"g" }}  </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>La recaudación es de: ${{ total|floatformat:"g" }}</h2>
+    </div>
+</div>
+<a href="../lista_recaudacion/" class="btn btn-danger">Volver</a>
+
+{% endblock %}

@@ -40,6 +40,8 @@
             <a class="nav-item nav-link" href="{% url 'logout' %}">Cerrar Sesión</a>
               {% if perms.centromedico.delete_hora %}
               <a class="nav-item nav-link" href="{% url 's_horas' %}">Modificar Horas</a>
+              <a class="nav-item nav-link" href="{% url 'lista_Pacientes' %}">Lista Pacientes</a>
+              <a class="nav-item nav-link" href="{% url 'lista_recaudacion' %}">Recaudación</a>
               {% endif %}
             <a href="#" class="nav-item nav-link">{{ user.username }}</a>
 

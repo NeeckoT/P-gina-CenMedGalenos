@@ -10,7 +10,7 @@
     <div class="card-body">
         <h2>Horas Disponibles</h2>
 
-        <table class="table table-striped table-hover table-responsive-sm">
+        <table class="table table-striped table-hover table-responsive-sm" >
         
             <tr> <th>Fecha y Hora</th> <th> Medico </th> <th> Especialidad </th> <th>Opciones</th></tr>
             {% for hora in horas %}
@@ -20,7 +20,7 @@
 
                     <td>{{hora.medico_med_run.pnombre}} {{ hora.medico_med_run.apaterno }}   </td>
 
-                    <td>{{ hora.especialidad_esp.nombre }}   </td>
+                    <td class="esp">{{ hora.especialidad_esp.nombre }}</td>
 
 
                     <td>
@@ -35,5 +35,6 @@
 
     </div>
 </div>
+
 
 {% endblock %}

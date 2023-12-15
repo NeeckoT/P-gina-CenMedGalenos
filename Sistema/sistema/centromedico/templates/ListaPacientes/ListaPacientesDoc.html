@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block titulo %} Lista pacientes {% endblock %}
+
+
+{% block contenido %}
+
+<div class="row">
+    <div class="col-12">
+        <h1 id="actualizar"></h1>
+        <table>
+            <tr> <th>Fecha</th> <th>Hora</th>   <th>Paciente</th>    </tr>
+            {% for horita in hora %}
+            <tr>
+                {% if horita.fecha_y_hora.date == fecha_hora_actual.date %}
+                    {% if horita.agendado %}
+                    <td>{{ horita.fecha_y_hora.date }}    &emsp;&emsp;</td>
+                    <td>{{ horita.fecha_y_hora.time }}    &emsp;&emsp;</td>
+                    <td>{{ horita.paciente_pac_run.pnombre }} {{ horita.paciente_pac_run.apaterno }} {{ horita.paciente_pac_run.amaterno }} &emsp;&emsp;</td>
+                    {% endif %}
+                {% endif %}
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<a href="../lista_pacientes/" class="btn btn-danger">Volver</a>
+
+
+<script>
+    function actualizarFechaHora() {
+        var elementoFechaHora = document.getElementById("actualizar");
+        var fechaHora = new Date();
+        elementoFechaHora.innerHTML = fechaHora.toLocaleString();
+    }
+
+    // Actualizar cada segundo (1000 milisegundos)
+    setInterval(actualizarFechaHora, 1000);
+    
+    // Actualizar inmediatamente al cargar la página
+    actualizarFechaHora();
+</script>
+
+{% endblock %}

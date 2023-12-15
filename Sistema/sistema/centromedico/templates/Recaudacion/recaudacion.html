@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block titulo %} Lista pacientes {% endblock %}
+
+
+{% block contenido %}
+
+<div class="row">
+    <div class="col-6">
+        <h1>Recaudación</h1>
+        <table>
+            <tr> <th>Médico</th> <th>Fecha</th> </tr>
+            {% for medico in medicos %}
+            <tr>
+                <td>{{medico.pnombre}} {{medico.apaterno}} {{medico.amaterno}} &emsp;&emsp;</td>
+                <td>
+                    <a href="{% url 'recaudacion' medico.med_run %}" class="btn btn-info">Recaudación del Mes</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

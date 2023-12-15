@@ -7,17 +7,27 @@ class Afp(models.Model):
     afp = models.CharField(max_length=50)
     descuento_afp = models.IntegerField()
 
-class Atencion(models.Model):
+class TipoSalud(models.Model):
     class Meta:
-        db_table = 'atencion'
-    ate_id = models.IntegerField(primary_key=True)
-    fecha_atencion = models.DateField()
-    hr_atencion = models.CharField(max_length=5)
-    costo = models.IntegerField()
-    medico_med_run = models.IntegerField()
-    pac_run = models.IntegerField()
-    hora_id_hora = models.IntegerField()
-    centro_medico_id_centro_medico = models.IntegerField(null=True)
+        db_table = 'tipo_salud'
+    tipo_sal_id = models.CharField(max_length=3, primary_key=True)
+    descripcion = models.CharField(max_length=100)
+
+class Salud(models.Model):
+    class Meta:
+        db_table = 'salud'
+    sal_id = models.IntegerField(primary_key=True)
+    descripcion = models.CharField(max_length=100)
+    costo_pago = models.IntegerField()
+    tipo_salud_tipo_sal_id = models.ForeignKey(TipoSalud, on_delete=models.CASCADE,max_length=3)
+
+
+class PrevisionSalud(models.Model):
+    class Meta:
+        db_table = 'prevision_salud'
+    id_prevision = models.IntegerField(primary_key=True)
+    prevision = models.CharField(max_length=50)
+    descuento_prevision = models.IntegerField()
 
 class Cargo(models.Model):
     class Meta:
@@ -25,54 +35,27 @@ class Cargo(models.Model):
     car_id = models.IntegerField(primary_key=True)
     nombre = models.CharField(max_length=30)
 
-class CentroMedico(models.Model):
-    class Meta:
-        db_table = 'centro_medico'
-    id_centro_medico = models.IntegerField(primary_key=True)
-    centro_medico = models.CharField(max_length=50)
-    fono_centro = models.IntegerField()
-    direccion_id_direccion = models.IntegerField(null=True)
-
 class Comuna(models.Model):
     class Meta:
         db_table = 'comuna'
     id_comuna = models.IntegerField(primary_key=True)
     comuna = models.CharField(max_length=50)
 
-class DetalleAtenMedicasMensuales(models.Model):
-    class Meta:
-        db_table = 'detalle_atenmedicas_mensuales'
-    mes_anno_atencion = models.CharField(max_length=7)
-    atencion_ate_id = models.IntegerField(primary_key=True)
-    paciente = models.CharField(max_length=100)
-    sistema_salud_paciente = models.CharField(max_length=100)
-    descrip_sistema_salud = models.CharField(max_length=100)
-    costo_atencion = models.IntegerField()
-
 class Direccion(models.Model):
     class Meta:
         db_table = 'direccion'
     id_direccion = models.IntegerField(primary_key=True)
     direccion = models.CharField(max_length=100)
-    comuna_id_comuna = models.IntegerField()
+    comuna_id_comuna = models.ForeignKey(Comuna, on_delete=models.CASCADE)
 
-class Empleado(models.Model):
+
+class CentroMedico(models.Model):
     class Meta:
-        db_table = 'empleado'
-    id_empleado = models.IntegerField(primary_key=True)
-    rut_empleado = models.IntegerField()
-    dv_empleado = models.CharField(max_length=1)
-    nom_empleado = models.CharField(max_length=20)
-    ap_empleado = models.CharField(max_length=20)
-    fecha_contrato = models.DateField()
-    telefono_empleado = models.IntegerField()
-    correo_empleado = models.CharField(max_length=100)
-    rol = models.CharField(max_length=20)
-    rol_id_rol = models.IntegerField()
-    sueldo_base = models.IntegerField()
-    contraseña_empleado = models.CharField(max_length=50)
-    prevision_salud_id_prevision = models.IntegerField()
-    afp_id_afp = models.IntegerField()
+        db_table = 'centro_medico'
+    id_centro_medico = models.IntegerField(primary_key=True)
+    centro_medico = models.CharField(max_length=50)
+    fono_centro = models.IntegerField()
+    direccion_id_direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE,null=True)
 
 class ErroresProceso(models.Model):
     class Meta:
@@ -103,11 +86,11 @@ class Medico(models.Model):
     telefono = models.IntegerField()
     sueldo_base = models.IntegerField()
     fecha_contrato = models.DateField()
-    especialidad_esp_id = models.IntegerField()
+    especialidad_esp_id = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
     correo_medico = models.CharField(max_length=150)
     contraseña_medico = models.CharField(max_length=50)
-    afp_id_afp = models.IntegerField()
-    prevision_salud_id_prevision = models.IntegerField()
+    afp_id_afp = models.ForeignKey(Afp, on_delete=models.CASCADE)
+    prevision_salud_id_prevision = models.ForeignKey(PrevisionSalud, on_delete=models.CASCADE)
     def __str__(self):
         return str(self.med_run)
 
@@ -122,43 +105,14 @@ class Paciente(models.Model):
     amaterno = models.CharField(max_length=15)
     fecha_nacimiento = models.DateField()
     telefono = models.IntegerField()
-    salud_sal_id = models.IntegerField(null=True)
+    salud_sal_id = models.ForeignKey(Salud, on_delete=models.CASCADE,null=True)
     correo_paciente = models.CharField(max_length=150)
     contraseña_paciente = models.CharField(max_length=50)
     genero_paciente = models.CharField(max_length=5)
-    direccion_id_direccion = models.IntegerField()
+    direccion_id_direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE)
     def __str__(self):
         return str(self.pac_run)
 
-
-class Hora(models.Model):
-    class Meta:
-        db_table = 'hora'
-        
-    id_hora = models.AutoField(primary_key=True)
-    fecha_y_hora = models.DateTimeField()
-    agendado = models.BooleanField(default=False)
-    medico_med_run = models.ForeignKey(Medico, on_delete=models.CASCADE)
-    paciente_pac_run = models.ForeignKey(Paciente, on_delete=models.CASCADE, null=True)
-    atencion_ate_id = models.IntegerField()
-    especialidad_esp = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
-
-
-
-
-class PagoAtencion(models.Model):
-    class Meta:
-        db_table = 'pago_atencion'
-    atencion_ate_id = models.IntegerField(primary_key=True)
-    fecha_pago = models.DateField()
-    valor_a_pagar = models.IntegerField()
-
-class PrevisionSalud(models.Model):
-    class Meta:
-        db_table = 'prevision_salud'
-    id_prevision = models.IntegerField(primary_key=True)
-    prevision = models.CharField(max_length=50)
-    descuento_prevision = models.IntegerField()
 
 class Relation14(models.Model):
     class Meta:
@@ -193,16 +147,66 @@ class Rol(models.Model):
     id_rol = models.IntegerField(primary_key=True)
     descripcion = models.CharField(max_length=1000)
 
-class Salud(models.Model):
+class Hora(models.Model):
     class Meta:
-        db_table = 'salud'
-    sal_id = models.IntegerField(primary_key=True)
-    descripcion = models.CharField(max_length=100)
-    costo_pago = models.IntegerField()
-    tipo_salud_tipo_sal_id = models.CharField(max_length=3)
+        db_table = 'hora'
+        
+    id_hora = models.AutoField(primary_key=True)
+    fecha_y_hora = models.DateTimeField()
+    agendado = models.BooleanField(default=False)
+    costo = models.IntegerField(null=True)
+    medico_med_run = models.ForeignKey(Medico, on_delete=models.CASCADE)
+    paciente_pac_run = models.ForeignKey(Paciente, on_delete=models.CASCADE, null=True)
+    especialidad_esp = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
 
-class TipoSalud(models.Model):
+
+
+class Atencion(models.Model):
     class Meta:
-        db_table = 'tipo_salud'
-    tipo_sal_id = models.CharField(max_length=3, primary_key=True)
-    descripcion = models.CharField(max_length=100)
+        db_table = 'atencion'
+    ate_id = models.IntegerField(primary_key=True)
+    fecha_atencion = models.DateField()
+    hr_atencion = models.CharField(max_length=5)
+    costo = models.IntegerField()
+    medico_med_run = models.ForeignKey(Medico, on_delete=models.CASCADE)
+    pac_run = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    hora_id_hora = models.ForeignKey(Hora, on_delete=models.CASCADE)
+    centro_medico_id_centro_medico = models.ForeignKey(CentroMedico, on_delete=models.CASCADE ,null=True)
+
+class PagoAtencion(models.Model):
+    class Meta:
+        db_table = 'pago_atencion'
+    atencion_ate_id = models.ForeignKey(Atencion, on_delete=models.CASCADE, unique=True ,primary_key=True)
+    fecha_pago = models.DateField()
+    valor_a_pagar = models.IntegerField()
+
+
+
+class DetalleAtenMedicasMensuales(models.Model):
+    class Meta:
+        db_table = 'detalle_atenmedicas_mensuales'
+    mes_anno_atencion = models.CharField(max_length=7)
+    atencion_ate_id = models.ForeignKey(Atencion, on_delete=models.CASCADE, unique=True,primary_key=True)
+    paciente = models.CharField(max_length=100)
+    sistema_salud_paciente = models.CharField(max_length=100)
+    descrip_sistema_salud = models.CharField(max_length=100)
+    costo_atencion = models.IntegerField()
+
+
+
+class Empleado(models.Model):
+    class Meta:
+        db_table = 'empleado'
+    id_empleado = models.IntegerField(primary_key=True)
+    rut_empleado = models.IntegerField()
+    dv_empleado = models.CharField(max_length=1)
+    nom_empleado = models.CharField(max_length=20)
+    ap_empleado = models.CharField(max_length=20)
+    fecha_contrato = models.DateField()
+    telefono_empleado = models.IntegerField()
+    correo_empleado = models.CharField(max_length=100)
+    rol_id_rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
+    sueldo_base = models.IntegerField()
+    contraseña_empleado = models.CharField(max_length=50)
+    prevision_salud_id_prevision = models.ForeignKey(PrevisionSalud, on_delete=models.CASCADE)
+    afp_id_afp = models.ForeignKey(Afp, on_delete=models.CASCADE)
